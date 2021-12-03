@@ -3,7 +3,7 @@ import { Box, Typography } from '@mui/material'
 
 const style = {
     width: '100%',
-    position: 'absolute',
+    position: 'sticky',
     bottom: 0,
     bgcolor: 'background.default',
     borderTop: 1,

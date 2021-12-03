@@ -26,12 +26,18 @@ const modalStyle = {
 function Thoughts(props) {
     const theme = useTheme();
 
+    let outputData = localStorage.getItem('thoughtData')
+        ? JSON.parse(localStorage.getItem('thoughtData'))
+        : [];
+
+    const [output, setOutput] = React.useState(outputData);
+
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
     return (
-        <Box sx={{ height: '80vh', p: 0 , mb:5}}>
+        <Box sx={{ height: '80vh', p: 0, mb: 5 }}>
             <ThemeProvider theme={theme}>
                 {props.mobile
                     ?
@@ -59,11 +65,11 @@ function Thoughts(props) {
                         <Typography variant="h5" fontWeight='bold' color="text.primary" align="center">
                             Add New Thought
                         </Typography>
-                        <InputForms type="Thought" displayModal={setOpen} />
+                        <InputForms type="Thought" displayModal={setOpen} changeOutput={setOutput} outputData={output} />
                     </Box>
                 </Modal>
 
-                <TableDisplay type="Thought" />
+                <TableDisplay type="Thought" outputContent={output} changeContent={setOutput} />
             </ThemeProvider>
         </Box>
     )

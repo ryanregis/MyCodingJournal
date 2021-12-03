@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import {
     Table, TableBody, TableCell, TableContainer, TableHead, TableFooter, TableRow, TablePagination,
-    Paper, Box, Typography, Checkbox, FormControlLabel, useTheme, IconButton
+    Paper, Box, Typography, Checkbox, useTheme, IconButton
 } from '@mui/material';
 
 import FirstPageIcon from '@mui/icons-material/FirstPage';
@@ -67,6 +67,8 @@ function TablePaginationActions(props) {
     );
 }
 
+
+
 TablePaginationActions.propTypes = {
     count: PropTypes.number.isRequired,
     onPageChange: PropTypes.func.isRequired,
@@ -78,15 +80,7 @@ TablePaginationActions.propTypes = {
 
 function TableDisplay(props) {
 
-    let rowData = props.type === "Task"
-        ? localStorage.getItem('taskData')
-            ? JSON.parse(localStorage.getItem('taskData'))
-            : []
-        : localStorage.getItem('thoughtData')
-            ? JSON.parse(localStorage.getItem('thoughtData'))
-            : [];
-
-    let [rows, setRows] = React.useState([...rowData]);
+    let [rows, setRows] = React.useState(props.outputContent);
 
     const [checked, setChecked] = React.useState(
         rows.length > 0 ? [...rows].map(row => row.isChecked) : [false]
@@ -109,6 +103,7 @@ function TableDisplay(props) {
     };
 
     const handleAllCheckboxes = (ev) => {
+        console.table(checked);
         [...rows].forEach(row => {
             row.isChecked = ev.target.checked;
         })
@@ -127,14 +122,15 @@ function TableDisplay(props) {
     const handleDeleteSingleItem = (ev) => {
         let conf = window.confirm('This action will delete this single item. Continue?');
         if (conf) {
-            setRows([...rows].filter(obj => obj.id !== ev.currentTarget.id));
+            props.changeContent([...rows].filter(obj => obj.id !== ev.currentTarget.id));
         }
     }
 
     React.useEffect(() => {
         if (props.type === "Task") localStorage.setItem(`taskData`, JSON.stringify(rows));
         if (props.type === "Thought") localStorage.setItem(`thoughtData`, JSON.stringify(rows));
-    }, [rows, props.type]);
+        setRows(props.outputContent);
+    }, [rows, props.type, props.outputContent]);
 
     return (
         <TableContainer component={Paper}>

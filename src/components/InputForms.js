@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box, Typography, FormControl, FilledInput, OutlinedInput, InputLabel, Button, IconButton, Modal, Alert, TextField } from '@mui/material';
+import { Box, Typography, FormControl, FilledInput, InputLabel, Button, IconButton, Modal, Alert, TextField } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import DateAdapter from '@mui/lab/AdapterMoment';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
@@ -32,18 +32,10 @@ const styles = {
 }
 
 function InputForms(props) {
-    let outputData = props.type === "Task"
-        ? localStorage.getItem('taskData')
-            ? JSON.parse(localStorage.getItem('taskData'))
-            : []
-        : localStorage.getItem('thoughtData')
-            ? JSON.parse(localStorage.getItem('thoughtData'))
-            : [];
+
 
     const [inputTitle, setInputTitle] = React.useState('');
     const [inputDesc, setInputDesc] = React.useState('');
-
-    const [output, setOutput] = React.useState(outputData);
 
     const [dateValue, setDateValue] = React.useState(new moment());
 
@@ -71,10 +63,12 @@ function InputForms(props) {
             let isChecked = false;
             let id = Date.now().toString(23);
             const content = { id, isChecked, dateContent, inputTitle, inputDesc };
-            setOutput([...output, content]);
             setInputTitle('');
             setInputDesc('');
-            setTimeout(() => props.displayModal(false), 0);
+            setTimeout(() => {
+                props.changeOutput([...props.outputData, content]);
+                props.displayModal(false)
+            }, 0);
         }
         else {
             handleOpenAlert();
@@ -87,9 +81,9 @@ function InputForms(props) {
     }
 
     React.useEffect(() => {
-        if (props.type === "Task") localStorage.setItem(`taskData`, JSON.stringify(output));
-        if (props.type === "Thought") localStorage.setItem(`thoughtData`, JSON.stringify(output));
-    }, [output, props.type]);
+        if (props.type === "Task") localStorage.setItem(`taskData`, JSON.stringify(props.outputData));
+        if (props.type === "Thought") localStorage.setItem(`thoughtData`, JSON.stringify(props.outputData));
+    }, [props.outputData, props.type]);
 
     return (
         <form name={props.type} action="/" style={styles.root} onSubmit={handleSubmit} onReset={handleReset}>

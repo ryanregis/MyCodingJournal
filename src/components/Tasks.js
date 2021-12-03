@@ -28,12 +28,18 @@ function Tasks(props) {
 
     const theme = useTheme();
 
+    let outputData = localStorage.getItem('taskData')
+        ? JSON.parse(localStorage.getItem('taskData'))
+        : [];
+
+    const [output, setOutput] = React.useState(outputData);
+
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
     return (
-        <Box sx={{ height: '80vh', p: 0, mb:5}}>
+        <Box sx={{ height: '80vh', p: 0, mb: 5 }}>
             <ThemeProvider theme={theme}>
                 {props.mobile
                     ?
@@ -54,17 +60,17 @@ function Tasks(props) {
                     onClose={handleClose}
                 >
                     <Box sx={modalStyle}>
-                        <IconButton sx={{alignSelf: 'flex-end', fontSize: 'clamp(1.5rem, 2.5vmax, 100px)' }} variant="contained" color="error" aria-label="Add Task" onClick={handleClose}>
+                        <IconButton sx={{ alignSelf: 'flex-end', fontSize: 'clamp(1.5rem, 2.5vmax, 100px)' }} variant="contained" color="error" aria-label="Add Task" onClick={handleClose}>
                             <CancelIcon fontSize="inherit" />
                         </IconButton>
                         <Typography variant="h5" fontWeight='bold' color="text.primary" align="center">
                             Add New Task
                         </Typography>
-                        <InputForms type="Task" displayModal={setOpen} />
+                        <InputForms type="Task" displayModal={setOpen} changeOutput={setOutput} outputData={output} />
                     </Box>
                 </Modal>
 
-                <TableDisplay type="Task" />
+                <TableDisplay type="Task" outputContent={output} changeContent={setOutput} />
             </ThemeProvider>
         </Box>
     )
