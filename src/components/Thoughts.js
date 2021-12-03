@@ -42,7 +42,7 @@ function Thoughts(props) {
 
                     :
 
-                    <IconButton sx={{ position: 'absolute', top: 14, left: 50, fontSize: 'clamp(1rem, 3.5vmax, 100px)' }} variant="contained" color="secondary" aria-label="Add Task" onClick={handleOpen}>
+                    <IconButton sx={{ position: 'absolute', bottom: '3%', right: '3%', fontSize: 'clamp(1rem, 3.5vmax, 100px)' }} variant="contained" color="secondary" aria-label="Add Task" onClick={handleOpen}>
                         <AddCircleIcon fontSize="inherit" />
                     </IconButton>
                 }
