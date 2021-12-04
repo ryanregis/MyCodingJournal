@@ -182,19 +182,25 @@ function TableDisplay(props) {
                             </TableCell>
                             <TableCell align="center">
                                 <Typography variant="body1"
-                                    sx={row.isChecked ? { textDecorationLine: 'line-through' } : { textDecorationLine: 'none' }}>
+                                    sx={row.isChecked
+                                        ? { textDecorationLine: 'line-through', color: 'text.disabled' }
+                                        : { textDecorationLine: 'none', color: 'text.primary' }}>
                                     {row.dateContent}
                                 </Typography>
                             </TableCell>
                             <TableCell align="center">
                                 <Typography variant="h6"
-                                    sx={row.isChecked ? { textDecorationLine: 'line-through' } : { textDecorationLine: 'none' }}>
+                                    sx={row.isChecked
+                                        ? { textDecorationLine: 'line-through', color: 'text.disabled' }
+                                        : { textDecorationLine: 'none', color: 'text.primary' }}>
                                     {row.inputTitle}
                                 </Typography>
                             </TableCell>
                             <TableCell align="justify">
                                 <Typography variant="body2"
-                                    sx={row.isChecked ? { textDecorationLine: 'line-through' } : { textDecorationLine: 'none' }}>
+                                    sx={row.isChecked
+                                        ? { textDecorationLine: 'line-through', color: 'text.disabled' }
+                                        : { textDecorationLine: 'none', color: 'text.primary' }}>
                                     {row.inputDesc}
                                 </Typography>
                             </TableCell>
