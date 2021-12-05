@@ -106,6 +106,7 @@ function TableDisplay(props) {
         let newRows = [...rows];
         newRows.forEach((_, index) => newRows[index] = { ...newRows[index], isChecked: ev.target.checked });
         props.changeContent(newRows);
+        setRows(newRows);
         setChecked([...checked].map(item => ev.target.checked));
     }
 
@@ -175,6 +176,7 @@ function TableDisplay(props) {
                                     let newRows = [...rows];
                                     newRows[index] = { ...newRows[index], isChecked: ev.target.checked };
                                     props.changeContent(newRows);
+                                    setRows(newRows);
                                     setChecked([...checked].map((item, i) => {
                                         if (index === i) item = ev.target.checked;
                                         return item;
