@@ -105,7 +105,7 @@ function TableDisplay(props) {
     const handleAllCheckboxes = (ev) => {
         let newRows = [...rows];
         newRows.forEach((_, index) => newRows[index] = { ...newRows[index], isChecked: ev.target.checked });
-        setRows(newRows);
+        props.changeContent(newRows);
         setChecked([...checked].map(item => ev.target.checked));
     }
 
@@ -126,10 +126,10 @@ function TableDisplay(props) {
     }
 
     React.useEffect(() => {
-        props.changeContent(rows);
-        if (props.type === "Task") localStorage.setItem(`taskData`, JSON.stringify(props.outputContent));
-        if (props.type === "Thought") localStorage.setItem(`thoughtData`, JSON.stringify(props.outputContent));
-    }, [rows, props]);
+        setRows(props.outputContent);
+        if (props.type === "Task") localStorage.setItem(`taskData`, JSON.stringify(rows));
+        if (props.type === "Thought") localStorage.setItem(`thoughtData`, JSON.stringify(rows));
+    }, [rows, props.type, props.outputContent]);
 
     return (
         <TableContainer component={Paper}>
@@ -174,7 +174,7 @@ function TableDisplay(props) {
                                 <Checkbox checked={checked[index]} onChange={(ev) => {
                                     let newRows = [...rows];
                                     newRows[index] = { ...newRows[index], isChecked: ev.target.checked };
-                                    setRows(newRows);
+                                    props.changeContent(newRows);
                                     setChecked([...checked].map((item, i) => {
                                         if (index === i) item = ev.target.checked;
                                         return item;
