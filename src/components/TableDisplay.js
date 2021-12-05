@@ -103,11 +103,10 @@ function TableDisplay(props) {
     };
 
     const handleAllCheckboxes = (ev) => {
-        console.table(checked);
-        [...rows].forEach(row => {
-            row.isChecked = ev.target.checked;
-        })
-        setChecked([...checked].map(item => ev.target.checked))
+        let newRows = [...rows];
+        newRows.forEach((_, index) => newRows[index] = { ...newRows[index], isChecked: ev.target.checked });
+        setRows(newRows);
+        setChecked([...checked].map(item => ev.target.checked));
     }
 
     const handleDeleteAllItems = (ev) => {
@@ -127,10 +126,10 @@ function TableDisplay(props) {
     }
 
     React.useEffect(() => {
-        if (props.type === "Task") localStorage.setItem(`taskData`, JSON.stringify(rows));
-        if (props.type === "Thought") localStorage.setItem(`thoughtData`, JSON.stringify(rows));
-        setRows(props.outputContent);
-    }, [rows, props.type, props.outputContent]);
+        props.changeContent(rows);
+        if (props.type === "Task") localStorage.setItem(`taskData`, JSON.stringify(props.outputContent));
+        if (props.type === "Thought") localStorage.setItem(`thoughtData`, JSON.stringify(props.outputContent));
+    }, [rows, props]);
 
     return (
         <TableContainer component={Paper}>
@@ -173,7 +172,9 @@ function TableDisplay(props) {
                         <TableRow key={row.id}>
                             <TableCell padding="checkbox">
                                 <Checkbox checked={checked[index]} onChange={(ev) => {
-                                    row.isChecked = ev.target.checked;
+                                    let newRows = [...rows];
+                                    newRows[index] = { ...newRows[index], isChecked: ev.target.checked };
+                                    setRows(newRows);
                                     setChecked([...checked].map((item, i) => {
                                         if (index === i) item = ev.target.checked;
                                         return item;
