@@ -106,8 +106,6 @@ function TableDisplay(props) {
         let newRows = [...rows];
         newRows.forEach((_, index) => newRows[index] = { ...newRows[index], isChecked: ev.target.checked });
         props.changeContent(newRows);
-        setRows(newRows);
-        setChecked([...checked].map(item => ev.target.checked));
     }
 
     const handleDeleteAllItems = (ev) => {
@@ -139,7 +137,7 @@ function TableDisplay(props) {
                     <TableRow>
                         <TableCell padding="checkbox">
                             <Checkbox
-                                checked={[...checked].every(item => item)}
+                                checked={[...rows].every(row => row.isChecked)}
                                 onChange={handleAllCheckboxes}
                             />
                         </TableCell>
@@ -172,15 +170,10 @@ function TableDisplay(props) {
                     ).map((row, index) => (
                         <TableRow key={row.id}>
                             <TableCell padding="checkbox">
-                                <Checkbox checked={checked[index]} onChange={(ev) => {
+                                <Checkbox checked={row.isChecked} onChange={(ev) => {
                                     let newRows = [...rows];
                                     newRows[index] = { ...newRows[index], isChecked: ev.target.checked };
                                     props.changeContent(newRows);
-                                    setRows(newRows);
-                                    setChecked([...checked].map((item, i) => {
-                                        if (index === i) item = ev.target.checked;
-                                        return item;
-                                    }));
                                 }} />
                             </TableCell>
                             <TableCell align="center">
